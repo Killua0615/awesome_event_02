@@ -1,15 +1,68 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Myapp</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>AwesomeEvents</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload" %>
+    <%= javascript_pack_tag "application", "data-turbolinks-track": "reload" %>
   </head>
-
   <body>
-    <%= yield %>
+    <header class="navbar navbar-expand-sm navbar-light bg-light">
+      <div class="container">
+        <%= link_to "AwesomeEvents", root_path, class: "navbar-brand mr-auto" %>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= form_with url: new_event_path, method: :get, local: true do %>
+              <%= button_tag type: :submit, class: "nav-link" do %>
+                イベントを作る
+              <% end %>
+            <% end %>
+          </li>
+          <% if logged_in? %>
+            <li class="nav-item">
+              <%= form_with url: new_retirements_path, method: :get, local: true do %>
+                <%= button_tag type: :submit, class: "nav-link" do %>
+                  退会
+                <% end %>
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= form_with url: logout_path, method: :delete, local: true do %>
+                <%= button_tag type: :submit, class: "nav-link" do %>
+                  ログアウト
+                <% end %>
+              <% end %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= form_with url: "/auth/github", method: :post, local: true do %>
+                <%= button_tag type: :submit, class: "nav-link" do %>
+                  GitHubでログイン
+                <% end %>
+              <% end %>
+            </li>
+          <% end %>
+          
+        </ul>
+      </div>
+      <div class="container">
+        
+        <% if flash.notice %>
+          <div class="alert alert-success">
+            <%= flash.notice %>
+          </div>
+        <% end %>
+
+        <% if flash.alert %>
+          <div class="alert alert-danger">
+            <%= flash.alert %>
+          </div>
+        <% end %>
+
+        <%= yield %>
+      </div>
+    </header>
   </body>
 </html>

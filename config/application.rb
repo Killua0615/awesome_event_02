@@ -30,3 +30,16 @@ module Myapp
     # the framework and any gems in your application.
   end
 end
+
+module AwesomeEvents
+	class Application < Rails::Application
+		config.load_defaults 6.0
+		config.time_zone = "Tokyo"
+    config.i18n.default_locale = :ja
+
+    config.active_storage.variant_processor = :vips
+    config.action_dispatch.rescue_responses.merge!(
+      "YourNewException" => :not_found
+    )
+	end
+end
